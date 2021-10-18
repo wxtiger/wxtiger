@@ -1,0 +1,166 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.mobile.js"></script> 
+	
+	<script src="/weixin/system/js/weixin.tools.js?aaa=1&"></script>	
+	<link rel="stylesheet" type="text/css" href="register.css?aa=001&"> 	
+	<script src="register.js?aaa=012&"></script>	
+	<title>设备报修</Title>
+	
+	 
+</head>
+
+<body>
+<div style="display:none">	
+	<input type="text" id="idCurWXID" value="" >	
+	<input type="text" id="idCurName" value="" >	
+	<input type="text" name="UserName" id="idUserName" value="" />
+	<input type="text" name="UserMobile" id="idUserMobile" value="" />	
+
+	<input type="text" id="idRepairStatus" value="" />	
+	<input type="text" id="idFileNameList" value="" />	
+	<input type="text" id="idFileNameSaveList" value="" />	
+	<input type="text" id="idNextWXID" value="" />	
+	<input type="text" id="idNextName" value="" />	
+	<input type="text" id="idRequestWXID" value="" />	
+	<input type="text" id="idRequestName" value="" />	
+	<input type="text" id="idRepairID" value="" />	
+	<input type="text" id="idFinishRecordNum" value="0" />	
+
+</div>
+		
+
+  <div class="easyui-navpanel">
+        <header>
+            <div class="m-toolbar">
+                <div class="m-title">IT设备报修<span id="idCIPIDShow"></span></div>
+            </div>
+			<div class="m-left" style="display:;margin-left:10px;">
+                    <a href="main.html" class="easyui-linkbutton" iconCls="icon-back" plain="true" outline="true">主页</a>
+            </div>
+			<div class="m-right" style="display:;margin-right:10px;">
+                    <a href="javascript:openWinWorkflow();" class="easyui-linkbutton" iconCls="icon-reload" plain="true" outline="true">流程</a>
+            </div>
+        </header>
+
+		<div class="easyui-tabs" id="idTab" data-options="fit:false,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
+    
+		<!--1.提出问题-->
+            <div title="1.提出问题" data-options="" style="color:black;">
+			
+				<div style="margin:10px">
+					<span style="width:;"><b>保修单：</b></span>	<span id="idRepairIDShow"></span>					
+				</div>
+				<div style="margin:10px">
+					<b>设备名：</b><span id="idMachineNameShow"></span>
+				</div>
+				<div style="margin:10px">
+					<b>创建者：</b><span id="idSubmitNameShow"></span>
+				</div>
+				
+				<div style="margin:10px">
+					<b>执行者：</b><span id="idSolvedNameShow"></span>
+				</div>
+												
+				<div style="margin:5px">		
+					<section class="showTitle1">							
+						<section style="margin:5px;">
+							<span id="idSubmitComment">报修内容</span>
+						</section>
+					</section>
+				</div>
+				
+				<div style="margin:10px">	
+					<div class="products">
+						<ul id="idFileList" >
+							
+						</ul>	
+					</div>
+				</div>
+            </div>
+			
+		<!--2.解决问题-->
+			<div title="2.解决问题" data-options="" >
+			
+				<div style="margin:10px">
+					<span><b>最后完成时间</b>：</span><span id="idShowFinishName" ></span>	
+				</div>
+					
+                <div style="margin:10px;height:400px">
+					<ul id="idShowFinishRecord" class="easyui-datalist" style="" data-options="
+										height:'100%',
+										rownumbers: true,  
+										fit: false,
+										nowrap:false,
+										lines: true,
+										border: true
+							">	
+					</ul>
+				</div>
+				
+            </div>
+		
+		<!--3.验证结果-->			
+			<div title="3.验证结果" data-options="" >
+			<br>
+                <div style="margin:20px;">
+					1、服务满意度评价（处理结果的质量）：<b><span id="idVerifySatisfation1" style="color:red">5</span></b><br>
+				</div>
+				<div style="margin:20px;">
+					2、服务满意度评价（处理响应的时间）：<b><span id="idVerifySatisfation2" style="color:red">5</span></b><br>
+				</div>
+				<div style="margin:20px">
+					 <input class="easyui-textbox" id="idVerifyComment" style="width:95%;height:100px" data-options="
+					 label:'3、备注说明:',multiline:true,readonly:true">
+				</div>
+				<div style="margin:20px">
+					<span><b>验证时间</b>：</span><span id="idShowVerifyName" ></span>	
+				</div>
+            </div>
+        </div>
+		
+	 </div>	
+		
+	
+	
+<script>
+
+//00 初始化
+$(document).ready(function(){ 
+	　　
+	//01 读取参数
+	doReadQuery();
+	//doOpen_setEvent();
+	
+	//02 读取当前用户资料
+	doReadUser();
+	
+	//03 读取报修资料
+	doReadRepair();
+	
+	//04 判断处理权限,绑定事件
+	doSetEvent();
+	
+	//05 显示完成记录
+	doShowFinishRecord()
+		
+}); 
+
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,778 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--基础类-->
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css?aa=1&">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.mobile.js"></script> 
+	<script src="/weixin/system/js/weixin.tools.js"></script>	
+	
+	
+	<title>设备列表</Title>	 
+	 
+</head>
+
+<body style="max-width:100%;text-align:center;margin:0 auto;">
+
+<div style="display:none">
+	<input id="idCurWXID" value="17665201558" /> 
+	<input id="idCurName" value="杨泰格" /> 
+	<input id="idNumFrom" value="" /> 
+	<input id="idNumTotal" value="" /> 
+	
+	<input id="idPageKey" value="" /> 
+	<input id="idPageCheckKey" value="" />
+	<input id="idPageCheckUrl" value="页面网址" />
+	<input id="idPageCheckTitle" value="页面标题" />
+	<input id="idPageCheckComment" value="页面介绍" />
+	<input id="idPageCheckMsg" value="页面介绍" />
+	
+	<input id="idSearchKey" value="" />
+	<input id="idSortName" value="" />
+	<input id="idSortType" value="" />
+</div>
+	
+	<div class="easyui-layout" id="idLayout"  style="width:100%;height:540px;">
+        <div data-options="region:'north'" style="height:80px">
+			<div style="margin:10px;">
+				<b>[当前用户]</b>：<b><span id="idCurUserShow"></span></b>&nbsp;&nbsp;<a href="#" onclick="doLogin()">点击登录</a>
+			</div>	
+			
+			<div style="margin:10px;">
+				<b>[报修日期]</b>：从
+				<input class="easyui-datebox" id="idSrearchDateFrom" style="120px"
+					data-options="prompt:'不限制',
+					editable:false,
+					formatter:myformatter,parser:myparser" 
+				> 到 <input class="easyui-datebox" id="idSrearchDateTo" style="120px"
+					data-options="prompt:'不限制',
+					editable:false,
+					formatter:myformatter,parser:myparser" 
+				>	&nbsp;&nbsp;
+				<b>[报修状态]</b>：<select class="easyui-combobox" id="idSeacrhStatus" style="width:150px" data-options="
+					editable:false">
+					<option value="00">(所有状态)</option>
+					<option value="20">待审核</option>
+					<option value="40">处理中</option>
+					<option value="50">待校验</option>
+					<option value="100">全部完成</option>
+				</select>&nbsp;&nbsp;
+				
+				<a href="javascript:doSearch()" class="easyui-linkbutton c1" style="width:120px">开始搜索</a>
+				<a href="javascript:doAddMachine()" class="easyui-linkbutton c1" style="width:100px">新增设备</a>
+				<a href="javascript:doDelMachine()" class="easyui-linkbutton c1" style="width:100px">删除设备</a>
+			</div>				
+		</div><!--North-->
+		
+		
+		<div data-options="region:'south'" style="height:1px">
+			
+		</div><!--South-->
+
+		
+        <!--对话历史-->	
+        <div data-options="region:'center'">								
+				<table id="dg"></table>
+									
+			<!--对话历史-->	
+        </div><!--Center-->
+    </div><!--easyui-layout-->
+	
+<script>
+
+$(document).ready(function(){ 
+
+	strTemp = DateFormat(new Date(),"");
+	today = strTemp.substring(0,10);
+	$('#idSrearchDateFrom').textbox('setValue',today);
+
+	sReturn = " RepairStatus != '90' ";
+	sReturn += " AND CreatedDate >= '"+today+"'";		
+	$('#idSearchKey').val(sReturn);
+	$('#idSortType').val('desc');
+
+	//强制登录
+		//doPageCheckInit();
+	　	//$('#idCurWXID').val('tiger.yang');
+		//$('#idCurName').val('Tiger,Yang Hu(杨虎)');	
+			searchKey = $('#idSearchKey').val();
+			sortName = $('#idSortName').val();
+			sortType = $('#idSortType').val();
+			var urlNew = '../php/machineExplodejson.php?From=1&To=15&Key='+searchKey+'&SortName='+sortName+'&SortType='+sortType+'&';
+			//var urlNew = '../php/explodejson.php?From=1&To=15&';
+			//alert(urlNew);
+			$('#dg').datagrid({	
+					loadMsg:'正在读取数据...',
+					url:urlNew,
+					method:'GET',
+					striped:true,
+					idField:'MachineID',
+					pagination:true,					
+					pagePosition:'top',
+					pageSize:15,
+					remoteSort:true,
+					singleSelect:true,	
+					showPageList:false,  					
+					columns:[[
+						{field:'NumLine',title:'',width:30,align:'center'},
+						{field:'BuyDate',title:'<b>购买入库时间</b>',width:120,sortable:true},
+						{field:'MachineID',title:'<b>设备编号</b>',width:100,sortable:true},
+						{field:'MachineType',title:'<b>设备型号</b>',width:100},
+						{field:'MachineName',title:'<b>设备名称</b>',width:200,formatter:formatMachineName},
+						{field:'MachineOwner',title:'<b>所属人员</b>',width:150},
+						{field:'MachineLocation',title:'<b>所在位置</b>',width:300},						
+						{field:'MachineStatusText',title:'<b>设备状态</b>',width:100},										
+					]]
+				});
+			
+			
+				//翻页设计
+				var pager = $("#dg").datagrid("getPager");  
+				pager.pagination({  
+					loading:false,
+					showPageList:false, 
+					pageSize:15,
+					beforePageText: '第',//页数文本框前显示的汉字 
+					afterPageText: '页，共 {pages} 页', 
+					displayMsg: '当前显示 {from} - {to} 条记录,共 {total} 条记录  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',					
+					onSelectPage:function (pageNo, pageSize) {
+						doChangePage(pageNo,pageSize);
+					}
+				});				
+				 
+});
+
+//格式化显示列
+function formatSubmitName(value,row,index){
+		return row['SubmitName']+"("+row['SubmitUserID']+")";
+}
+function formatMachineName(value,row,index){
+		return row['MachineName']+"("+row['MachineID']+")";
+}
+function formatSolvedName(value,row,index){
+		return row['SolvedName']+"("+row['SolvedUserID']+")";
+}
+
+function formatComment(value,row,index){
+	if (value.indexOf('{')>-1){
+		return '(来自)';
+	} else {
+		return value;
+	}
+}
+		
+
+//事件设置
+$('#dg').datagrid({
+	onDblClickRow: function(index,row){
+		doEditMachine();
+	},
+	onBeforeSortColumn: function(sort,order){
+		$('#idSortName').val(sort);
+		$('#idSortType').val(order);
+		doChangePage(1,15);		
+		$('#dg').datagrid('reload','');
+	}
+});
+	
+	
+
+
+
+
+function doChangePage(pageNo=1,pageSize=15){
+	var dg =$('#dg');
+	var pager =dg.datagrid('getPager');
+	
+	var start = (pageNo - 1) * pageSize+1;  
+	var end = start + pageSize-1;
+	
+	searchKey = $('#idSearchKey').val();
+	sortName = $('#idSortName').val();
+	sortType = $('#idSortType').val();
+	
+	searchKey = "";
+		
+	var urlNew = '../php/machineExplodejson.php?From='+start+'&To='+end+'&Key='+searchKey+'&SortName='+sortName+'&SortType='+sortType+'&';
+	var urlNew = '../php/machineExplodejson.php?aa=1&';
+	
+	//alert(urlNew);
+	
+	$.get(urlNew, function(data) {
+	
+	//alert(data);
+	   var total = JSON.parse(data).NumTotal;
+	    
+	   $('#dg').datagrid('loadData', JSON.parse(data));
+	   var pager = $("#dg").datagrid("getPager");  	   
+	   pager.pagination({
+		   total:total,//总数
+		   pageSize:pageSize,//行数
+		   pageNumber: pageNo//页数		   	   
+		});
+	});
+}
+
+//检查是否已经登录了
+	function checkUserName(){
+		sWXID = $("#idWXID").val();
+		if(sWXID != ''){
+		
+			$("#idCurWXID").val(sWXID);
+			
+			strTemp = $("#idUserName").val();
+			$("#idCurName").val(strTemp);
+			$("#idCurUserShow").html(strTemp);
+			
+			//alert(strTemp+'，您好，');
+			
+			window.clearTimeout(timeShow);//去掉定时器 
+		}
+	}
+	
+	function doLogin(){
+		timeShow = setInterval(checkUserName,1000);
+		doPageCheckShow();
+	}
+	
+
+function doSearch(){
+	
+	sReturn = " MachineID!= '' ";
+	
+	sDateFrom = $('#idSrearchDateFrom').datebox('getText');
+	if(sDateFrom != ''){
+		sReturn += " AND CreatedDate >= '"+sDateFrom+"' ";
+	}
+	
+	sDateTo = $('#idSrearchDateTo').datebox('getText');
+	if(sDateTo != ''){
+		sReturn += " AND CreatedDate <= '"+sDateTo+"' ";
+	}
+	
+	sStatus = $('#idSeacrhStatus').val();
+	if(sStatus != '' && sStatus != '00'){
+		sReturn += " AND RepairStatus = '"+sStatus+"' ";
+	}
+	
+	//alert(sReturn);
+	
+	$('#idSearchKey').val(sReturn);
+	doChangePage(1,15);
+}
+
+//删除设备
+function doDelMachine(){
+	row = $('#dg').datagrid('getSelected');
+	if(row == null){
+		$.messager.alert('Error','请选择一行设备!','error');
+		return;
+	}
+	if(row['MachineID'] == ''){
+		$.messager.alert('Error','请选择一行设备!','error');
+		return;
+	}
+	
+	machineID = row['MachineID'];
+	strReturn = '"SubmitType":"Delete"';	
+	strReturn += ',"CurWXID":"'+$('#idCurWXID').val()+'"';
+	strReturn += ',"CurName":"'+$('#idCurName').val()+'"';
+	strReturn += ',"MachineID":"'+machineID+'"';
+	strReturn += ',"SubmitDate":"'+DateFormat(new Date())+'"';
+	//保存记录
+	$.messager.confirm({
+		title: '删除',
+		msg: '您确定删除(<b>'+machineID+'</b>)吗?',		
+		cancel:'<span style=\'font-size:120%;color:red\'>删除</span>',
+		ok:'<span style=\'font-size:120%;color:grey\'>取消</span>',
+		fn: function(r){
+			if (!r){
+				strReturn = '{'+strReturn+'}';
+				doDelMachine_submit(strReturn);
+				return;
+			}
+		}
+	});
+}
+function doDelMachine_submit(strData){
+	$.ajax({
+		url:'../php/machineSave.php',
+		type:'POST', data:strData,dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			alert(sText);
+			objJson = JSON.parse(sText);
+			
+			//处理重复编号'{"errcode":10,"errmsg":"Machine ID is same."}';
+			if(objJson.errcode == 10){
+				alert("发现重复的编号，请输入新的编号");
+				return;
+			}
+			
+			
+			if(objJson.errcode != 0){
+				alert("保存有问题，请重新提交");
+				return;
+			}
+			if(objJson.errmsg == 'Repeat'){
+				//重复提交，不处理 '{"errcode":0,"errmsg":"Repeat"}';
+				//alert('重复提交');
+				doWinMachineClose();
+				doChangePage('1','15');
+				return false;
+			}
+			
+			alert("已成功保存，设备编号："+objJson.MachineID);
+			doWinMachineClose();
+			doChangePage('1','15');
+			return false;
+		},
+	})
+}
+
+
+	
+//新增设备
+function doAddMachine(){		
+	doWinMachineShow('新增设备','doAddMachine_OK()');
+	//$('#idMachineName').textbox('setValue','bbb');
+}
+function doAddMachine_OK(sStype='NewAdd'){
+	strReturn = '"SubmitType":"NewAdd"';
+	
+	strReturn += ',"CurWXID":"'+$('#idCurWXID').val()+'"';
+	strReturn += ',"CurName":"'+$('#idCurName').val()+'"';
+	
+	
+	//设备编号
+	sValue = $('#idMachineID').textbox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入设备编号!','error');
+		return;
+	}
+	strReturn += ',"MachineID":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//设备名称
+	sValue = $('#idMachineName').textbox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入设备名称!','error');
+		return;
+	}
+	strReturn += ',"MachineName":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//所属人名
+	sValue = $('#idMachineOwner').textbox('getValue');	
+	strReturn += ',"MachineOwner":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//机器型号
+	sValue = $('#idMachineType').combobox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入设备型号!','error');
+		return;
+	}
+	strReturn += ',"MachineType":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//购买时间
+	sValue = $('#idBuyDate').datebox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入购买日期!','error');
+		return;
+	}
+	strReturn += ',"BuyDate":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//机器状态
+	sValue = $('#idMachineStatus').combobox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入设备状态!','error');
+		return;
+	}
+	strReturn += ',"MachineStatus":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//领用时间
+	sValue = $('#idUsedDate').datebox('getValue');
+	strReturn += ',"UsedDate":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//等级大类
+	sValue = $('#idMachineClass').combobox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入设备级别!','error');
+		return;
+	}
+	strReturn += ',"MachineClass":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//所在位置
+	sValue = $('#idMachineLocation').textbox('getValue');	
+	strReturn += ',"MachineLocation":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//备注说明
+	sValue = $('#idMachineComment').textbox('getValue');	
+	strReturn += ',"MachineComment":"'+encodeURI(StringDelBad(sValue))+'"';
+	
+	//保存记录
+	$.messager.confirm({
+		title: '提交',
+		msg: '您确定保存吗?',		
+		cancel:'<span style=\'font-size:120%;color:blue\'>提交</span>',
+		ok:'<span style=\'font-size:120%;color:grey\'>取消</span>',
+		fn: function(r){
+			if (!r){
+				strReturn = '{'+strReturn+'}';
+				doAddMachine_submit(strReturn);
+				return;
+			}
+		}
+	});
+	
+	
+}
+function doAddMachine_submit(strData){
+	$.ajax({
+		url:'../php/machineSave.php',
+		type:'POST', data:strData,dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			alert(sText);
+			objJson = JSON.parse(sText);
+			
+			//处理重复编号'{"errcode":10,"errmsg":"Machine ID is same."}';
+			if(objJson.errcode == 10){
+				alert("发现重复的编号，请输入新的编号");
+				return;
+			}
+			
+			
+			if(objJson.errcode != 0){
+				alert("保存有问题，请重新提交");
+				return;
+			}
+			if(objJson.errmsg == 'Repeat'){
+				//重复提交，不处理 '{"errcode":0,"errmsg":"Repeat"}';
+				//alert('重复提交');
+				doWinMachineClose();
+				return false;
+			}
+			
+			alert("已成功保存，设备编号："+objJson.MachineID);
+			doWinMachineClose();
+			doChangePage('1','15');
+			return false;
+		},
+	})
+}
+
+//编辑修改设备
+function doEditMachine(){
+	row = $('#dg').datagrid('getSelected');
+	if(row == null){
+		$.messager.alert('Error','请选择一行设备!','error');
+		return;
+	}
+	if(row['MachineID'] == ''){
+		$.messager.alert('Error','请选择一行设备!','error');
+		return;
+	}
+	
+	machineID = row['MachineID'];
+	strReturn = '"SubmitType":"Read"';	
+	strReturn += ',"CurWXID":"'+$('#idCurWXID').val()+'"';
+	strReturn += ',"CurName":"'+$('#idCurName').val()+'"';
+	strReturn += ',"MachineID":"'+machineID+'"';
+	strReturn += ',"SubmitDate":"'+DateFormat(new Date())+'"';
+	//保存记录
+	strReturn = '{'+strReturn+'}';
+	
+	//读取数据
+	$.ajax({
+		url:'../php/machineSave.php',
+		type:'POST', data:strReturn,dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			//alert(sText);
+			objJson = JSON.parse(sText);
+			
+			//处理重复编号'{"errcode":10,"errmsg":"Machine ID is same."}';
+			if(objJson.errcode == 10){
+				alert("错误编号");
+				return;
+			}
+			
+			if(objJson.errcode != 0){
+				alert("代码有问题，请重新提交");
+				return;
+			}
+			
+			//显示窗
+			doWinMachineShow('编辑设备','doAddMachine_OK()');
+			
+			//修改窗口数据
+			objLine = objJson.Line[0];
+			//alert(objLine.MachineID);
+			$('#idMachineID').textbox('setValue',objLine.MachineID);
+			$('#idMachineID').textbox({editable:false,readonly:true,disabled:true});
+			
+			$('#idMachineName').textbox('setValue',objLine.MachineName);
+			$('#idMachineOwner').textbox('setValue',objLine.MachineOwner);
+			$('#idMachineType').combobox('setValue',objLine.MachineType);			
+			$('#idMachineStatus').combobox('setValue',objLine.MachineStatus);			
+			$('#idMachineClass').combobox('setValue',objLine.MachineClass);
+			$('#idBuyDate').datebox('setValue',objLine.BuyDate);
+			$('#idUsedDate').datebox('setValue',objLine.UsedDate);
+			$('#idMachineLocation').textbox('setValue',objLine.MachineLocation);
+			$('#idMachineComment').textbox('setValue',objLine.MachineComment);
+			
+			
+			return false;
+		},
+	})
+	
+	
+	
+	
+}
+function doEditMachine111111_submit(strData){
+	$.ajax({
+		url:'../php/machineSave.php',
+		type:'POST', data:strData,dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			alert(sText);
+			objJson = JSON.parse(sText);
+			
+			//处理重复编号'{"errcode":10,"errmsg":"Machine ID is same."}';
+			if(objJson.errcode == 10){
+				alert("错误编号");
+				return;
+			}
+			
+			if(objJson.errcode != 0){
+				alert("代码有问题，请重新提交");
+				return;
+			}
+			
+			//显示窗
+			doWinMachineShow(sTitle,fun_OK);
+			
+			alert("已成功保存，设备编号："+objJson.MachineID);
+			doWinMachineClose();
+			doChangePage('1','15');
+			return false;
+		},
+	})
+}
+
+
+//显示设备窗口
+function doWinMachineClose(){
+	winName = 'idWinMachineShow';
+	$('#'+winName).window('close');
+}
+function doWinMachineShow(sTitle,fun_OK){
+	winName = 'idWinMachineShow';
+	//sTitle = '新增设备';
+	//sFunction = '';
+		
+	if($('#'+winName).length==0){	
+		var myDiv = $('<div></div>'); 
+		myDiv.attr('id',winName); 
+		$(document.body).append(myDiv); 
+		 
+		$('#'+winName).window({
+			width:'95%',
+			maxWidth:'800px',
+			height:'500px',
+			closed:true,
+			closable:true,
+			iconCls:'icon-save',
+			title:sTitle,
+		});	
+		$('#'+winName).css('padding','5px');
+		
+		//窗口内容
+		sText1 = '';
+		sText1 += '<div data-options="region:\'center\'" style="padding:5px;">';	
+		sText1 += '	<ul class="m-list" data-options="';	
+		sText1 += '			fit: true,';	
+		sText1 += '			lines: true,';	
+		sText1 += '			border: false">';	
+	
+		sText1 += '		<li><input class="easyui-textbox" style="width:35%" id="idMachineID" data-options="';	
+		sText1 += '				label:\'设备编号：\',';			
+		sText1 += '				required:true,';	
+		sText1 += '				prompt:\'请输入设备编号\',';	
+		sText1 += '				missingMessage: \'请输入设备编号\' ';	
+		sText1 += '			">&nbsp;&nbsp;';
+		
+		sText1 += '		<input class="easyui-textbox" style="width:60%" id="idMachineName" data-options="';	
+		sText1 += '				label:\'设备名称：\',';	
+		sText1 += '				labelAlign:\'right\',';			
+		sText1 += '				required:true,';	
+		sText1 += '				prompt:\'请输入设备名称\',';	
+		sText1 += '				missingMessage: \'请输入设备名称\' ';	
+		sText1 += '			"></li>';
+		
+		sText1 += '		<li><input class="easyui-textbox" style="width:35%" id="idMachineOwner" data-options="';	
+		sText1 += '				label:\'所属人员：\',';		
+		sText1 += '				prompt:\'如果是公用设备，可为空\',';	
+		sText1 += '				missingMessage: \'如果是公用设备，请留空\' ';	
+		sText1 += '			">&nbsp;&nbsp;';
+		
+		sText1 += '		<input class="easyui-combobox" style="width:60%" id="idMachineType" data-options="';	
+		sText1 += '				label:\'设备型号：\',';	
+		sText1 += '				labelAlign:\'right\',';			
+		sText1 += '				required:true,';	
+		sText1 += '				prompt:\'请输入或选择设备型号\',';	
+		sText1 += '				missingMessage: \'请输入或选择设备型号\' ';	
+		sText1 += '			"></li>';
+		
+		sText1 += '		<li><input class="easyui-datebox" id="idBuyDate" style="width:35%;" data-options="';
+		sText1 += '				label:\'购买日期：\',formatter:myformatter,parser:myparser,required:true,';
+		sText1 += '				missingMessage: \'请输入购买日期\' ';	
+		sText1 += '			">&nbsp;&nbsp;';
+		
+		sText1 += '		<input class="easyui-combobox" style="width:60%" id="idMachineStatus" data-options="';	
+		sText1 += '				label:\'设备状态：\',';	
+		sText1 += '				labelAlign:\'right\',';	
+		sText1 += '				editable:false,';	
+		sText1 += '				required:true,';			
+		sText1 += '			"></li>';
+		
+		sText1 += '		<li><input class="easyui-datebox" id="idUsedDate" style="width:35%;" data-options="';
+		sText1 += '				label:\'领用日期：\',formatter:myformatter,parser:myparser,';
+		sText1 += '			">&nbsp;&nbsp;';
+		
+		sText1 += '		<input class="easyui-combobox" style="width:60%" id="idMachineClass" data-options="';	
+		sText1 += '				label:\'设备级别：\',';	
+		sText1 += '				labelAlign:\'right\',';	
+		sText1 += '				editable:false,';	
+		sText1 += '				required:true,';			
+		sText1 += '			"></li>';
+		
+		
+		
+		sText1 += '		<li><input class="easyui-textbox" id="idMachineLocation" style="width:95%;" ';	
+		sText1 += '			 data-options="label:\'所在位置：\',prompt:\'机器设备所在的楼层座位\',"></li>';	
+		
+		sText1 += '		<li><input class="easyui-textbox" id="idMachineComment" style="width:95%;height:100px" ';	
+		sText1 += '			 data-options="label:\'备注说明：\',multiline:true,"></li>';	
+		
+		sText1 += '	</ul>';	
+		sText1 += '</div>';			
+		$('#'+winName).append(sText1);
+		
+		$('#idMachineID').textbox({	
+			label: '设备编号：<span style="color:red">*</span>',
+		});
+		$('#idMachineName').textbox({
+			label: '设备名称：<span style="color:red">*</span>'
+		});
+		$('#idBuyDate').datebox({
+			label: '购买/入库：<span style="color:red">*</span>',
+			closeText:'关闭',
+			currentText:'今日',
+			editable:false,
+			value:DateFormat(new Date())
+		});
+		$('#idUsedDate').datebox({
+			label: '领用/启用：',
+			closeText:'关闭',
+			currentText:'今日',
+			editable:false,
+		});
+		
+		$('#idMachineType').combobox({
+			label: '设备型号：<span style="color:red">*</span>',
+			valueField: 'value',
+			textField: 'label',
+			data: [{
+				label: '便携电脑',
+				value: '便携电脑'
+			},{
+				label: '打印机',
+				value: '打印机'
+			},{
+				label: '投影仪',
+				value: '投影仪'
+	
+			
+			}]
+		
+		});
+		
+		
+		$('#idMachineClass').combobox({
+			label: '设备级别：<span style="color:red">*</span>',
+			valueField: 'value',
+			textField: 'label',
+			data: [{
+				label: '公用设备',
+				value: '公用设备'
+			},{
+				label: '管理层设备',
+				value: '管理层设备'
+			},{
+				label: '员工设备',
+				value: '员工设备'
+			},{
+				label: '员工私人设备',
+				value: '员工私人设备'
+			},{
+				label: '消防设备',
+				value: '消防设备'
+			},{
+				label: '物业设备',
+				value: '物业设备'
+			}]
+		
+		});
+		$('#idMachineStatus').combobox({
+			label: '设备状态：<span style="color:red">*</span>',
+			valueField: 'value',
+			textField: 'label',
+			value: 'Idle',
+			data: [{
+				label: '闲置',
+				value: 'Idle'
+			},{
+				label: '在用',
+				value: 'Using'
+			},{
+				label: '报废',
+				value: 'Scrap'
+			}]
+		
+		});
+		
+		
+		
+		//显示按钮
+		sText2 = '';
+		sText2 += '<div data-options="region:\'south\',border:false" style="text-align:right;padding:5px;height:10px">		';	
+		sText2 += '  <a class="easyui-linkbutton" data-options="iconCls:\'icon-ok\'" href="javascript:'+fun_OK+'" style="width:100px;padding:5px;"> 确认 </a>&nbsp;';
+		sText2 += '  <a class="easyui-linkbutton" data-options="iconCls:\'icon-cancel\'" href="javascript:void(0)" onclick="javascript:$(\'#'+winName+'\').window(\'close\');" style="width:100px;padding:5px;"> 取消 </a>';
+		sText2 += '</div>';
+		$('#'+winName).append(sText2);
+		
+		//刷新显示
+		$.parser.parse($('#'+winName));
+	}	
+	
+
+	
+	//显示窗口
+	$('#'+winName).window('open');	
+	$('#'+winName).window('center');	
+	
+	
+}
+	
+	
+</script>
+
+
+
+</body>
+</html>

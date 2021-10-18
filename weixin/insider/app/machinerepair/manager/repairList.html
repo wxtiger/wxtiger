@@ -1,0 +1,297 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--基础类-->
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.mobile.js"></script> 
+	<script src="/weixin/system/js/weixin.tools.js"></script>	
+	
+	<!--显示验证身份库函数-->
+	
+	<title>报修记录</Title>	 
+	 
+</head>
+
+<body style="max-width:100%;text-align:center;margin:0 auto;">
+
+<div style="display:none">
+	<input id="idCurWXID" value="" /> 
+	<input id="idCurName" value="" /> 
+	<input id="idCustomerWXID" value="" /> 
+	<input id="idRecordId" value="" />
+	<input id="idRepairStatus" value="" />
+	<input id="idQuestionType" value="" />
+	<input id="idNumFrom" value="" /> 
+	<input id="idNumTotal" value="" /> 
+	<input id="idEngineerWXID" value="" /> 
+	<input id="idEngineerName" value="" /> 
+	
+	<input id="idListType" value="" /> 
+	
+	
+	<input id="idIsSubmit" value="" /> 
+	<input id="idIsReadUser" value="" /> 
+	<input id="idIsDeleted" value="" /> 
+	<input id="idUserEnterTime" value="" /> 
+	
+	<input id="idWXID" value="" /> 
+	<input id="idUserName" value="" /> 
+	<input id="idUserMobile" value="" /> 
+	<input id="idPageKey" value="" /> 
+	<input id="idPageCheckKey" value="" />
+	<input id="idPageCheckUrl" value="页面网址" />
+	<input id="idPageCheckTitle" value="页面标题" />
+	<input id="idPageCheckComment" value="页面介绍" />
+	<input id="idPageCheckMsg" value="页面介绍" />
+	
+	<input id="idSearchKey" value="" />
+	<input id="idSortName" value="" />
+	<input id="idSortType" value="" />
+</div>
+	
+	<div class="easyui-layout" id="idLayout"  style="width:100%;height:700px;">
+        <div data-options="region:'north'" style="height:80px">
+			<div style="margin:10px;">
+				<b>[当前用户]</b>：<b><span id="idCurUserShow"></span></b>&nbsp;&nbsp;<a href="#" onclick="doLogin()">点击登录</a>
+			</div>	
+			
+			<div style="margin:10px;">
+				<b>[报修日期]</b>：从
+				<input class="easyui-datebox" id="idSrearchDateFrom" style="120px"
+					data-options="prompt:'不限制',
+					editable:false,
+					formatter:myformatter,parser:myparser" 
+				> 到 <input class="easyui-datebox" id="idSrearchDateTo" style="120px"
+					data-options="prompt:'不限制',
+					editable:false,
+					formatter:myformatter,parser:myparser" 
+				>	&nbsp;&nbsp;
+				<b>[报修状态]</b>：<select class="easyui-combobox" id="idSeacrhStatus" style="width:150px" data-options="
+					editable:false">
+					<option value="00">(所有状态)</option>
+					<option value="20">待审核</option>
+					<option value="40">处理中</option>
+					<option value="50">待校验</option>
+					<option value="100">全部完成</option>
+				</select>&nbsp;&nbsp;
+				
+				<a href="javascript:doSearch()" class="easyui-linkbutton c1" style="width:120px">开始搜索</a>
+			</div>				
+		</div><!--North-->
+		
+		
+		<div data-options="region:'south'" style="height:1px">
+			
+		</div><!--South-->
+
+		
+        <!--对话历史-->	
+        <div data-options="region:'center'">								
+				<table id="dg"></table>
+									
+			<!--对话历史-->	
+        </div><!--Center-->
+    </div><!--easyui-layout-->
+	
+<script>
+
+$(document).ready(function(){ 
+
+	strTemp = DateFormat(new Date(),"");
+	today = strTemp.substring(0,10);
+	$('#idSrearchDateFrom').textbox('setValue',today);
+
+	sReturn = " RepairStatus != '90' ";
+	sReturn += " AND CreatedDate >= '"+today+"'";		
+	$('#idSearchKey').val(sReturn);
+	$('#idSortType').val('desc');
+
+	//强制登录
+		//doPageCheckInit();
+	　	//$('#idCurWXID').val('tiger.yang');
+		//$('#idCurName').val('Tiger,Yang Hu(杨虎)');	
+			searchKey = $('#idSearchKey').val();
+			sortName = $('#idSortName').val();
+			sortType = $('#idSortType').val();
+			var urlNew = '../php/repairExplodejson.php?From=1&To=15&Key='+searchKey+'&SortName='+sortName+'&SortType='+sortType+'&';
+			
+			//alert(urlNew);
+			$('#dg').datagrid({	
+					loadMsg:'正在读取数据...',
+					url:urlNew,
+					method:'GET',
+					striped:true,
+					idField:'RepairID',
+					pagination:true,					
+					pagePosition:'top',
+					pageSize:15,
+					remoteSort:true,
+					singleSelect:true,	
+					showPageList:false,  					
+					columns:[[
+						{field:'NumLine',title:'',width:30,align:'center'},
+						{field:'CreatedDate',title:'<b>报修时间</b>',width:150,sortable:true},
+						{field:'RepairID',title:'<b>流水号</b>',width:120,sortable:true},
+						{field:'RepairStatusText',title:'<b>状态</b>',width:80,align:'center'},
+						{field:'MachineName',title:'<b>机器名称</b>',width:200,formatter:formatMachineName},
+						{field:'SubmitName',title:'<b>报修人</b>',width:150,formatter:formatSubmitName},
+						{field:'SubmitComment',title:'<b>报修内容</b>',width:300},						
+						{field:'SolvedName',title:'<b>处理人</b>',width:150,formatter:formatSolvedName},										
+					]]
+				});
+			
+			
+				//翻页设计
+				var pager = $("#dg").datagrid("getPager");  
+				pager.pagination({  
+					loading:false,
+					showPageList:false, 
+					pageSize:15,
+					beforePageText: '第',//页数文本框前显示的汉字 
+					afterPageText: '页，共 {pages} 页', 
+					displayMsg: '当前显示 {from} - {to} 条记录,共 {total} 条记录  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',					
+					onSelectPage:function (pageNo, pageSize) {
+						doChangePage(pageNo,pageSize);
+					}
+				});				
+				 
+});
+
+//格式化显示列
+function formatSubmitName(value,row,index){
+		return row['SubmitName']+"("+row['SubmitUserID']+")";
+}
+function formatMachineName(value,row,index){
+		return row['MachineName']+"("+row['MachineID']+")";
+}
+function formatSolvedName(value,row,index){
+		return row['SolvedName']+"("+row['SolvedUserID']+")";
+}
+
+function formatComment(value,row,index){
+	if (value.indexOf('{')>-1){
+		return '(来自微服务)';
+	} else {
+		return value;
+	}
+}
+		
+
+//事件设置
+$('#dg').datagrid({
+	onDblClickRow: function(index,row){
+		//alert(row['RepairID']);		
+		url = '../register.php?ID='+row['RepairID']+'&';
+		window.open(url);
+	},
+	onBeforeSortColumn: function(sort,order){
+		//alert(sort);
+		//alert(order);
+		$('#idSortName').val(sort);
+		$('#idSortType').val(order);
+		doChangePage(1,15);		
+		$('#dg').datagrid('reload','');
+	}
+});
+	
+	
+
+
+
+
+function doChangePage(pageNo,pageSize){
+	var dg =$('#dg');
+	var pager =dg.datagrid('getPager');
+	
+	var start = (pageNo - 1) * pageSize+1;  
+	var end = start + pageSize-1;
+	
+	searchKey = $('#idSearchKey').val();
+	sortName = $('#idSortName').val();
+	sortType = $('#idSortType').val();
+		
+	var urlNew = '../php/repairExplodejson.php?From='+start+'&To='+end+'&Key='+searchKey+'&SortName='+sortName+'&SortType='+sortType+'&';
+	
+	//alert(urlNew);
+	
+	$.get(urlNew, function(data) {
+	
+	//alert(data);
+	   var total = JSON.parse(data).total;
+	    
+	   $('#dg').datagrid('loadData', JSON.parse(data));
+	   var pager = $("#dg").datagrid("getPager");  	   
+	   pager.pagination({
+		   loading:false,
+		   total:total,//总数
+		   pageSize:pageSize,//行数
+		   pageNumber: pageNo//页数		   	   
+		});
+	});
+}
+
+//检查是否已经登录了
+	function checkUserName(){
+		sWXID = $("#idWXID").val();
+		if(sWXID != ''){
+		
+			$("#idCurWXID").val(sWXID);
+			
+			strTemp = $("#idUserName").val();
+			$("#idCurName").val(strTemp);
+			$("#idCurUserShow").html(strTemp);
+			
+			//alert(strTemp+'，您好，');
+			
+			window.clearTimeout(timeShow);//去掉定时器 
+		}
+	}
+	
+	function doLogin(){
+		timeShow = setInterval(checkUserName,1000);
+		doPageCheckShow();
+	}
+	
+//
+function doSearch(){
+	
+	sReturn = " RepairStatus != '90' ";
+	
+	sDateFrom = $('#idSrearchDateFrom').datebox('getText');
+	if(sDateFrom != ''){
+		sReturn += " AND CreatedDate >= '"+sDateFrom+"' ";
+	}
+	
+	sDateTo = $('#idSrearchDateTo').datebox('getText');
+	if(sDateTo != ''){
+		sReturn += " AND CreatedDate <= '"+sDateTo+"' ";
+	}
+	
+	sStatus = $('#idSeacrhStatus').val();
+	if(sStatus != '' && sStatus != '00'){
+		sReturn += " AND RepairStatus = '"+sStatus+"' ";
+	}
+	
+	//alert(sReturn);
+	
+	$('#idSearchKey').val(sReturn);
+	doChangePage(1,15);
+}
+	
+	
+	
+</script>
+
+
+
+</body>
+</html>

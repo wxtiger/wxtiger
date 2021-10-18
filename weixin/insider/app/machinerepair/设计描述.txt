@@ -1,0 +1,72 @@
+【系统目录结构】
+-  weixin
++    insider：	关于企业微信的项目-
+ -    system：	系统类库，
+ +      class：	php类库
+ +      js：		js类库
+
++    tools：	一些工具软件
+
+【数据库设计】
+
+Create Database weixin
+CREATE TABLE MachineInfo(
+    ID INT NOT NULL PRIMARY  Key AUTO_INCREMENT,
+    MachineID VARCHAR(50) NOT NULL,
+    MachineName VARCHAR(200) ,
+    MachineType VARCHAR(100) ,
+    MachineLocation VARCHAR(100) ,
+    MachineOwner VARCHAR(100) ,
+    MachineStatus VARCHAR(50) ,
+    MachineComment LongText,
+    WarrantyDate Date,
+    CreatedDate Date,
+    UpdatedDate Date
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE RepairInfo(
+    ID INT NOT NULL PRIMARY  Key  AUTO_INCREMENT,
+    RepairID VARCHAR(50) NOT NULL,
+    MachineID VARCHAR(50) NOT NULL,
+    MachineName VARCHAR(200) ,
+    RepairStatus  VARCHAR(50) ,
+    RepairFileList LongText,
+
+    SubmitDate Date,
+    SubmitName  VARCHAR(200) ,
+    SubmitUserID  VARCHAR(50) ,
+    CreatedName  VARCHAR(200) ,
+    CreatedUserID  VARCHAR(50) ,
+    SubmitComment LongText,
+    
+    CheckDate Date,
+    CheckName  VARCHAR(200) ,
+    CheckUserID  VARCHAR(50) ,
+    CheckComment LongText,
+    CheckResult  VARCHAR(50) ,
+
+    SolvedDate Date,
+    SolvedName  VARCHAR(200) ,
+    SolvedUserID  VARCHAR(50) ,
+    SolvedComment LongText,
+    SolvedResult  VARCHAR(50) ,
+
+    VerifyDate Date,
+    VerifyName  VARCHAR(200) ,
+    VerifyUserID  VARCHAR(50) ,
+    VerifyComment LongText,
+    VerifyResult  VARCHAR(50) ,
+
+    CreatedDate Date ,
+    UpdatedDate Date
+  PRIMARY KEY ( ID )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+【页面设计】
+welcome.php		身份验证页面
+main.php 			主页面
+repair.php			报修页面
+
+
+
+

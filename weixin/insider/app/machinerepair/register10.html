@@ -1,0 +1,706 @@
+<!--
+http://localhost/weixin/insider/app/machinerepair/index10.html
+
+-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.mobile.js"></script> 
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="/weixin/system/js/weixin.tools.js"></script>
+	<script src="register.js?aa=001&"></script>
+	
+	<!--微信WX功能-->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script> 
+	<script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script> 
+	<script src="/weixin/system/class/wxjssdk/wxpage.js?aaa=15&"></script> 
+	
+
+	<title>设备报修</Title>
+	 
+	
+	
+	<style>
+	 	 
+	 .title1{font-size:14px;margin:5px auto;border:0 none;margin:0 auto;padding:0}
+	 .title2{padding:5px 10px;color:#fff;border-left-width:10px;border-left-style:solid;border-color:#86b9e0;background:#4d70b0;font-size:14px;line-height:30px}
+	 .title3{margin:0;padding:0}
+	 
+	 .select1{margin-top:10px;margin-bottom:10px;text-align:center;position:static;transform:translate3d(0px,0px,0px);-webkit-transform:translate3d(0px,0px,0px);-moz-transform:translate3d(0px,0px,0px);-o-transform:translate3d(0px,0px,0px);padding:3px;}
+	 .select2{display:inline-block;width:99%;vertical-align:top;border-style:none none solid;border-bottom-width:5px;border-radius:10px;border-bottom-color:#2aaade;box-shadow:rgba(81,81,81,0.54) 0px 0px 3px;background-color:rgba(255,255,255,0.6);}
+	 .select3{margin-top:20px;margin-bottom:10px;position:static;}
+	 .select4{display:inline-block;vertical-align:middle;}
+	 .select5{margin-bottom:-2px;}
+	 .select6{float:left;width:8px;height:3px;background-color:#2aaade;}
+	 .select7{float:right;width:8px;height:3px;background-color:#2aaade;}
+	 .select8{clear:both;}
+	 .select9{padding-right:5px;padding-left:5px;border-left:3px solid #2aaade; border-top-color:#2aaade; border-right:3px solid #2aaade; border-bottom-color:#2aaade; font-size:18px; color:rgb(74,62,62);}
+	 .select10{padding:10px;display:inline-block;width:95%;vertical-align:top;}
+	 .select11{position:relative;border:0px none;padding:0px;}
+	 .select12{position:static;}
+	 .select13{text-align:justify;font-size:15px;}
+	
+	
+	.messager-window .messager-button .l-btn-small{
+		margin:5px;
+	}
+	
+	
+	.products{
+		overflow:auto;
+		height:auto;
+		background:#fafafa;
+	}
+	.products ul{
+		list-style:none;
+		margin:0;
+		padding:0px;
+	}
+	.products li{
+		display:inline;
+		float:left;
+		margin:5px;
+	}
+
+	.item{
+		text-decoration:none;
+		display: inline-block;
+		position: relative;
+	}
+	.item img{
+		border:1px solid #333;width:100px;height:100px;
+	}
+	
+	.item .delete {
+		position: absolute;
+		top: 2px;
+		right: 2px;
+	}
+	
+	.icon-voicea{
+		background:url('images/luyin.png') no-repeat center center;
+		width:16px;
+		height:16px;
+	}
+	
+	</style> 
+	
+	 
+</head>
+
+<body>
+<div style="display:none">	
+
+	<!--微信WX功能-->
+	<input id="idWXappId" value="" />
+	<input id="idWXSignOK" value="" />
+	<input id="idWXRecordLocalID" value="" />
+	<input id="idWXRecordServerID" value="" />
+	<input id="idWXRecordText" value="" />
+	<input id="idWXRecordFileList" value="" />	
+	<input id="idWXImageLocalID" value="" />
+	<input id="idWXImageServerID" value="" />
+	
+	<!--上传图片字段-->
+	<input type="text" id="idImageNameList" value="" />	
+	<input type="text" id="idImageNameSaveList" value="" />	
+
+	<input type="text" id="idCurWXID" value="" >	
+	<input type="text" id="idCurName" value="" >
+	<input type="text" id="idMachineID" value="" >	
+	<input type="text" id="idMachineName" value="" >	
+	<input type="text" id="idSubmitType" value="" />	
+
+	<input type="text" id="idRepairStatus" value="10" />	
+	<input type="text" id="idFileNameList" value="" />	
+	<input type="text" id="idFileNameSaveList" value="" />	
+	<input type="text" id="idProcessorWXID" value="" />	
+	<input type="text" id="idProcessorName" value="" />	
+	<input type="text" id="idRepairID" value="" />	
+
+
+</div>
+		
+
+<div class="easyui-navpanel">
+	
+    <section style="margin-top: 10px;margin-bottom: 10px;box-sizing: border-box;display:">
+        <section style="width: 100%;box-sizing: border-box;transform: rotate(0deg);-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);" data-width="100%">
+            <section style="width: 50px;height: 4px;background-color: rgb(169, 204, 219);box-sizing: border-box;"></section>
+        </section>
+        <section style="margin-top: -4px;padding: 10px;background-color: rgb(248, 245, 245);box-shadow: rgb(0, 0, 0) 0px 0px 0px;box-sizing: border-box;">
+            <section>
+                <section style="box-sizing: border-box;">
+                    <section style="font-size: 14px;box-sizing: border-box;">
+                        <p style="box-sizing: border-box;">
+                           请输入故障内容，或直接录音，尽可能上传故障照片，维修处理过程我们会发送微信通知给您，请注意微信消息。
+                        </p>
+						<p style="box-sizing: border-box;">
+						如有紧急情况，请拨打电话：<a href="tel:13712345678">13712345678</a>					
+						 </p>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+	
+	
+	<section class="select1">
+        <section class="select2" data-width="100%">
+
+            <section class="select10" data-width="100%">
+                <section class="select11" >
+                    <section class="select12" >
+                        <section class="select13" >
+		
+		<ul id="list" class="m-list" style="width:99%;" nowrap="false">
+		
+			<li><b>机器名</b>：<span id="idMachineShow"></span><br><b>保修日期</b>：<span id="idWarrantyShow"></span><br></li>
+			
+			<li><input class="easyui-textbox" style="width:100%" id="idUserName" data-options="		
+				label:'您的名字',
+				required:true,
+				prompt:'请输入您名字',
+				missingMessage: '请输入内容' 
+			"></li>
+			
+			<li><input class="easyui-textbox" style="width:100%" id="idUserMobile" data-options="		
+				label:'手机号码',
+				required:true,
+				prompt:'请输入手机号码',
+				missingMessage: '请输入内容' 
+			"></li>
+			
+			<li>
+			
+			<input class="easyui-textbox" style="width:100%" id="idRepairComment" data-options="				
+				multiline:true,
+				height:'150px',
+				required:true,
+				prompt:'请输入故障内容，或点击录音识别成文字',
+				missingMessage: '请输入内容' 
+			">
+			
+			
+					
+			
+			<!--录音按钮 开始-->
+	<div style="text-align:center;margin-top:5px;z-index:99;width:99%">
+		
+		<a id="btnVoiceStart" href="javascript:doVoiceStart('idRecordComment');" class="easyui-linkbutton c8" style="width:20%;height:60px" data-options="iconCls:'icon-voicea',iconAlign:'top'">
+			<span style="font-size:100%"><b>录音</b></span>
+		</a>
+		
+		<a id="btnVoiceEnd" href="javascript:doWXRecordStop();" class="easyui-linkbutton c8" style="width:20%;height:60px" data-options="iconCls:'icon-cancel',iconAlign:'top'">
+			<span style="font-size:100%"><b>停止</b></span>
+		</a>
+		<a id="btnVoicePlay" href="javascript:doWXRecordPlayStart();" class="easyui-linkbutton c8" style="width:20%;height:60px" data-options="iconCls:'icon-reload',iconAlign:'top'">
+			<span style="font-size:100%"><b>播放</b></span>
+		</a>		
+		<a id="btnVoiceStart" href="javascript:doSelectImage" class="easyui-linkbutton c8" style="width:20%;height:60px" data-options="iconCls:'icon-add',iconAlign:'top'">
+			<span style="font-size:100%"><b>图片</b></span>
+		</a>
+		
+		
+		<br>
+		<div id="idVoiceProcess" class="easyui-progressbar" style="width:100%;"></div>				
+	</div><!--录音按钮 结束-->
+	
+	
+			</li>
+			
+			<li>
+					
+					<div style="margin:5px;display:none">
+						<input class="easyui-filebox" id="idFileUpload" style="width:100%;display:" label="" 
+								labelPosition="left" data-options="
+								buttonText:'选择图片',
+								buttonIcon:'icon-add',
+								prompt:'请拍照或选择图片上传',
+								multiple:false,
+								accept: 'image/*',
+								onChange:function(){uploadImage()} " > 
+					
+					</div>
+					<div style="margin:5px">	
+						<div class="products">
+							<ul id="idFileList" >
+								
+							</ul>	
+						</div>
+					</div>
+					
+				</li>
+			
+		</ul>	
+                        </section>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+	
+
+	
+	<div style="margin:20px;text-align:center">
+		<a href="#" onclick="doRegister()" class="easyui-linkbutton c6" style="width:160px;height:50px"><span style="font-size:120%"><b>提 交</b></span></a>
+	</div>
+	
+
+	
+<script>
+
+
+$(document).ready(function(){ 
+	
+	//01 设置微信环境
+	//wxGetInit('vvtiger');
+	
+	//01 字段预处理
+	doFiledSet();
+	
+	//02 读取当前用户资料
+	doReadUser();
+	
+	//03 读取设备资料
+	doReadMachine();
+	
+	//04 读取报修资料
+	//doReadRepair()
+	
+	//05 激活语言功能
+	//doVoiceInit();
+	
+	
+	//doOpen();
+		
+}); 
+
+//01 字段预处理
+function doFiledSet(){
+	strTemp = ""+window.localStorage.getItem("RepairComment")
+	if(strTemp != 'undefined' && strTemp!='' && strTemp!='null' ) $('#idRepairComment').textbox('setValue',strTemp);
+	
+	$('#idRepairComment').textbox({
+		onChange: function(newValue,oldValue){
+			window.localStorage.setItem("RepairComment",newValue);
+		}
+	});
+}
+
+//02 读取当前用户资料
+function doReadUser(){
+	//alert(window.sessionStorage.getItem("CurWXID"));
+	
+	$('#idCurWXID').val(window.sessionStorage.getItem("CurWXID"));
+	$('#idCurName').val(window.sessionStorage.getItem("CurName"));
+	$('#idMachineID').val(window.sessionStorage.getItem("MachineID"));
+	$('#idMachineName').val(window.sessionStorage.getItem("MachineName"));
+	
+	$('#idUserName').textbox('setValue',$('#idCurName').val());
+	$('#idUserMobile').textbox('setValue',$('#idCurWXID').val());
+	
+	
+}
+//03 读取设备资料
+function doReadMachine(){
+	sTemp = $('#idMachineName').val()+'('+$('#idMachineID').val()+')';
+	//alert(sTemp)
+	$('#idMachineShow').html(sTemp);
+	
+	
+	ajaxLoading('读取机器资料...');
+	var requestURL = "php/getMachineByMachineID.php?ID="+$('#idMachineID').val()+"&";
+	
+	$.ajax({
+		url:requestURL,
+		type:'GET',dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			ajaxLoadEnd();			
+			//alert(sText);
+			objJson = JSON.parse(decodeURI(sText));
+			//alert(objJson.Line[0].WarrantyDate);
+			sTemp = objJson.Line[0].WarrantyDate;
+			$('#idWarrantyShow').html(sTemp);
+			
+		},
+	})
+}	
+
+
+
+
+//10 提交处理
+function doRegister(){
+		
+	var strReturn = "";	
+	strReturn += '"CurWXID":"'+$("#idCurWXID").val()+'",';
+	strReturn += '"CurName":"'+encodeURI(StringDelBad($("#idCurName").val()))+'",';
+	strReturn += '"MachineID":"'+StringDelBad($("#idMachineID").val())+'",';
+	strReturn += '"MachineName":"'+encodeURI(StringDelBad($("#idMachineName").val()))+'",';
+	strReturn += '"SubmitType":"Submit",';
+	
+	//您的名字
+	sValue = $('#idUserName').textbox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入您的名字!','error');
+		return;
+	}
+	strReturn += '"UserName":"'+encodeURI(StringDelBad(sValue))+'",';
+	
+	//您的手机号码
+	sValue = $('#idUserMobile').textbox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入您的手机号码!','error');
+		return;
+	}
+	strReturn += '"UserMobile":"'+encodeURI(StringDelBad(sValue))+'",';
+	
+	//您的RepairComment
+	sValue = $('#idRepairComment').textbox('getValue');
+	if(sValue == ""){
+		$.messager.alert('Error','请输入报修内容!','error');
+		return;
+	}
+	
+	sValue = sValue.replace(/\r\n/g,'<br>');
+	sValue = sValue.replace(/\n\r/g,'<br>');
+	sValue = sValue.replace(/\n/g,'<br>');
+	sValue = sValue.replace(/\r/g,'<br>');
+	
+	strReturn += '"RepairComment":"'+encodeURI(StringDelBad(sValue))+'",';
+	
+	//保存图片附件
+	fileSelect = $('#idImageNameList').val().trim();	
+	fileSelect = StringDelEmpty(fileSelect);
+	
+	if(fileSelect == ''){
+		strReturn += '"MainImageList":"",';
+	}else{		
+		fileList = $('#idImageNameSaveList').val().trim();
+		
+		arrSelect = fileSelect.split(';');
+		arrList = fileList.split(';');
+		strFileList = '';
+		for(i=0;i<arrSelect.length ; i++){		
+			for(j=0 ; j<arrList.length ; j++){
+				arrTemp = arrList[j].split('|');
+				if(arrTemp[0] == arrSelect[i]){
+					strFileList += ';'+arrList[j];
+					break;
+				}
+			}
+		}
+		strFileList = StringDelEmpty(strFileList);
+		strReturn += '"MainImageList":"'+strFileList+'",';
+	}
+	
+	//保存录音
+	fileVoice = $('#idWXRecordFileList').val();		
+	if(fileVoice == ''){
+		strReturn += '"MainVoiceList":"",';
+	}else{				
+		strReturn += '"MainVoiceList":"'+fileVoice.substring(1)+'",';
+	}
+		
+	strReturn += '"OK":"1"';	
+	//alert(strReturn);
+	
+	//保存记录
+	$.messager.confirm({
+		title: '提交',
+		msg: '您确定提交吗?',		
+		cancel:'<span style=\'font-size:120%;color:blue\'>提交</span>',
+		ok:'<span style=\'font-size:120%;color:grey\'>取消</span>',
+		fn: function(r){
+			if (!r){
+				strReturn = '{'+strReturn+'}';
+				saveBody(strReturn);
+				return;
+			}
+		}
+	});
+}
+
+function saveBody(body){
+		
+		var requestURL = "php/doRepairSubmit10.php";
+		
+		$.ajax({
+		url:requestURL,
+		type:'POST', 
+		data:body,
+		timeout:5000,
+		dataType:'text', 
+		success:function(sText,textStatus,jqXHR){
+			//alert(sText);
+			objJson = JSON.parse(sText);
+			
+			if(objJson.errcode != 0){
+				alert("保存有问题，请重新提交");
+				return;
+			}
+			if(objJson.errmsg == 'Repeat'){
+				//重复提交，不处理
+				location.href='main.html';
+				return;
+			}
+			
+			alert("已成功保存，订单号："+objJson.RepairID);
+			//WeixinJSBridge.call('closeWindow');
+			location.href='main.html';
+		},
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//处理音频的代码 start
+		var voiceSaveField = 'idRecordComment';
+		doVoiceInit();
+		
+		//00 录音初始化
+		function doVoiceInit(){
+			//隐藏按钮
+			$('#idVoiceProcess').hide();	
+			$('#btnVoicePlay').hide();	
+			$('#btnVoiceEnd').hide();
+			
+			//$('#btnVoicePlay').linkbutton({
+			//	disabled: true
+			//});
+		}
+		//01 开始录音
+		function doVoiceStart(sField){
+			
+			voiceSaveField = sField;	
+			
+			$("#btnVoiceStart").hide();
+			$("#btnVoiceEnd").show();	
+			$("#btnVoicePlay").show();			
+			$('#btnVoicePlay').linkbutton({disabled:false});
+	
+			doWXRecordStart();	
+			
+			timeVoiceNum = 0 ;	//录音时间
+			$("#idWXRecordLocalID").val('');
+			$('#idVoiceProcess').progressbar({text:'已录音0秒',value: 0});
+			
+			timeVoiceRecord = setInterval(doCheckVoice,1000);
+			$('#idVoiceProcess').show();					
+		}
+		//02 显示录音进度条
+		function doCheckVoice(){
+			timeVoiceNum++;
+			
+			num = timeVoiceNum / 60 * 100;
+			$('#idVoiceProcess').progressbar({
+				text:'已录音'+timeVoiceNum+'秒',
+				value: num				
+			});
+			
+			if(timeVoiceNum<60 && $("#idWXRecordLocalID").val() == ''){
+				return;
+			}
+			if(timeVoiceNum>=60){		
+				doWXRecordStop();
+			}
+			
+			//结束录音处理
+			$("#btnVoiceStart").css("display","");
+			$("#btnVoiceEnd").css("display","none");			
+			window.clearTimeout(timeVoiceRecord);//去掉定时器 
+			$('#idVoiceProcess').hide();
+			
+			//上传录音
+			doWXRecordUpload(1);
+			timeVoiceService = setInterval(saveVoiceService,100);
+			
+			//录音识别文字				
+			doVoiceText();
+		}
+		
+		//03 识别文字
+		var timeVoiceText ; 
+		$("#idWXRecordText").val('');
+		
+		function doVoiceText(){
+			$("#idWXRecordText").val('');
+			doWXRecord2Text(null);
+			timeVoiceText = setInterval(checkVoiceText,1000);
+			return;
+		}
+		function checkVoiceText(){
+			var sText = $("#idWXRecordText").val();
+			if(sText == ''){
+				return;
+			}
+			window.clearTimeout(timeVoiceText);//去掉定时器 
+						
+			$("#idWXRecordText").val('');
+			sValue = $('#'+voiceSaveField).textbox('getValue').trim()+' '+sText;
+			$('#'+voiceSaveField).textbox('setValue',sValue);
+						
+			return;
+		}
+		
+		//保存服务器录音
+		var timeVoiceService = setInterval(saveVoiceService,100); ; 
+		$("#idWXRecordServerID").val('');
+		
+		function saveVoiceService(){
+			var sText = $("#idWXRecordServerID").val();
+			if(sText == ''){
+				return;
+			}
+					
+			sText2 = $("#idWXRecordFileList").val()+';'+sText;
+			
+			$("#idWXRecordFileList").val(sText2);
+			$("#idWXRecordServerID").val('');			
+			return;
+		}
+		
+		// 3 智能接口
+		  var voice = {
+			localId: '',
+			serverId: ''
+		  };
+			
+	  // 3.1 识别音频并返回识别结果
+		function doWXRecord2Text(obj){
+			if(voice.localId == ''){
+			  alert('请先开始录音，才能识别');
+			  return;
+			}
+			wx.translateVoice({
+				localId: voice.localId,
+				complete: function (res){
+					if (res.hasOwnProperty('translateResult')){				
+						$("#idWXRecordText").val(res.translateResult);
+						if(obj !=null) obj.value += res.translateResult;
+						return res.translateResult;
+					} else {
+					  //alert('无法识别');
+						$("#idWXRecordText").val('');
+						return "";
+					}
+				}
+			});
+		};
+//处理音频的代码 End
+
+//处理图片上传代码 start		  
+	var imgIndex = 0;
+	function doSelectImage(numImage=9,sizeType='original'){
+	
+		wx.chooseImage({
+			count: numImage, // 默认9
+			sizeType: sizeType,	//[['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+			//sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+			
+			success: function (res){
+				images.localId = res.localIds;
+				//alert('已选择 ' + res.localIds.length + ' 张图片');	
+
+				strTemp = $("#idWXImageLocalID").val();
+				$("#idWXImageLocalID").val(strTemp + ";"+res.localIds);
+				
+				num = res.localIds.length;
+				for(i=0;i<num;i++){
+					filename = res.localIds[i];				
+					$('#idImageNameList').val($('#idImageNameList').val()+";"+filename);
+						
+					imgIndex++;
+					
+					sText = '';
+					sText += '<li id="idLI'+imgIndex+'" filename="'+filename+'"><div class="item">';
+					sText += '<img onclick="doImgShow(\''+filename+'\')" src="'+filename+'" />';
+					sText += '<a href="javascript:doFileListDel(\''+imgIndex+'\')" class="delete easyui-linkbutton" data-options="iconCls:\'icon-cut\'"></a>';
+					sText += '</div></li>';
+						
+					$("#idFileList").append(sText);
+				}
+				//重新渲染
+				$.parser.parse($('#idFileList').parent());			
+				doWXImgUpload2();
+			}
+		});
+	};
+	// 5.3 上传图片
+	function doWXImgUpload2(){
+		if (images.localId.length == 0){
+			alert('请先选择图片');
+			return;
+		}
+		var i = 0, length = images.localId.length;
+		images.serverId = [];
+		function upload(){
+			wx.uploadImage({
+				localId: images.localId[i],
+				success: function (res){
+					i++;
+					//alert('已上传：' + i + '/' + length);
+					images.serverId.push(res.serverId);
+					
+					$("#idWXImageServerID").val($("#idWXImageServerID").val()+";"+res.serverId);
+					strTemp += ";"+this.localId+"|"+res.serverId;
+					$("#idImageNameSaveList").val($("#idImageNameSaveList").val()+";"+strTemp);
+									
+					if (i < length){
+						upload();
+					}else{
+					}
+				},
+				fail: function (res){
+					alert(JSON.stringify(res));
+				}
+			});
+		}
+		upload();
+	};
+	//删除文件列表
+	function doFileListDel(num){
+
+		//获得选中的行内容
+		filename = $('#idLI'+num).attr('filename');	
+		fileList = $('#idImageNameList').val().replace(filename,'');
+		$('#idImageNameList').val(fileList);
+		$('#idLI'+num).remove();		
+		
+	}	
+//处理图片上传代码 end
+
+		
+</script>
+	
+</body>
+</html>

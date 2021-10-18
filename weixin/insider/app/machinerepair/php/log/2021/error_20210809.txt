@@ -1,0 +1,1 @@
+[02:04:50]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-09' order by CreatedDate desc

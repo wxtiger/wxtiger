@@ -1,0 +1,2 @@
+{"CreatedDate":"2021-07-30 07:08:13","Status":"40","CreatedWXID":"17665201558","CreatedName":"\u6768\u6cf0\u683c","FinishText":"\u5f88\u597d\uff0c\u4e0d\u9519","FinishResult":"\u5f88\u5b8c\u7f8e","FinishDate":"2021-07-28","FinishFee":"100.00"}
+{"CreatedDate":"2021-07-30 07:09:02","Status":"40","CreatedWXID":"17665201558","CreatedName":"\u6768\u6cf0\u683c","FinishText":"\u5f88\u597d\uff0c\u4e0d\u9519","FinishResult":"\u5f88\u5b8c\u7f8e\u554a\u554a\u554a","FinishDate":"2021-07-28","FinishFee":"100.00"}

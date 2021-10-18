@@ -1,0 +1,129 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	
+	
+	<script src="/weixin/system/js/weixin.tools.js"></script>
+	
+	
+	<!--微信WX功能-->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script> 
+	<script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script> 
+	<script src="/weixin/system/class/wxjssdk/wxpage.js?aaa=15&"></script> 
+	
+
+	<title>设备报修</Title>
+	 
+	 
+	<link href="images/main.css" type="text/css" rel="stylesheet" /> 
+</head>
+
+<body>
+<div style="display:none">	
+
+	<!--微信WX功能-->
+	<input id="idWXappId" value="" />
+	<input id="idWXSignOK" value="" />
+	<input id="idWXRecordLocalID" value="" />
+	<input id="idWXRecordServerID" value="" />
+	<input id="idWXRecordText" value="" />
+	<input id="idWXRecordFileList" value="" />	
+	<input id="idWXImageLocalID" value="" />
+	<input id="idWXImageServerID" value="" />
+
+		
+</div>	
+	<input type="text" id="idCurWXID" value="17665201558" >	
+	<input type="text" id="idCurName" value="杨泰格" >	
+	<input type="text" id="idMachineID" value="1234" />	
+	<input type="text" id="idMachineName" value="惠普打印机" />
+
+
+<ul class="list">
+	<li>
+		<div class="border"></div>
+		<span class="icon">Z</span>
+		<div class="text">
+			<h2><a href="#" target="_blank">设备资料</a></h2>
+			<h3>当前设备：打印机（1234）</h3>
+		</div>
+	</li>
+	<li>
+		<div class="border"></div>
+		<span class="icon">2</span>
+		<div class="text">
+			<h2><a href="javascript:doCreateRepair();" >我要报修</a></h2>
+			<h3>创建一个新的报修</h3>
+		</div>
+	</li>
+	<li>
+		<div class="border"></div>
+		<span class="icon">C</span>
+		<div class="text">
+			<h2><a href="searchRepair.html" target="_blank">报修记录</a></h2>
+			<h3>查看历史报修记录</h3>
+		</div>
+	</li>
+	<li>
+		<div class="border"></div>
+		<span class="icon">D</span>
+		<div class="text">
+			<h2><a href="#" target="_blank">帮助文档</a></h2>
+			<h3>设备帮助（缺）</h3>
+		</div>
+	</li>
+	<li>
+		<div class="border"></div>
+		<span class="icon">M</span>
+		<div class="text">
+			<h2><a href="#" target="_blank">设备视频</a></h2>
+			<h3>设备视频（缺）</h3>
+		</div>
+	</li>
+</ul>
+
+<script>
+$(document).ready(function(){ 
+	　　
+	window.sessionStorage.setItem("CurWXID",$('#idCurWXID').val());
+	window.sessionStorage.setItem("CurName",$('#idCurName').val());
+	window.sessionStorage.setItem("MachineID",$('#idMachineID').val());
+	window.sessionStorage.setItem("MachineName",$('#idMachineName').val());
+		
+}); 
+
+
+function doCreateRepair(){
+	
+	
+	url = 'register10.html'; //?CurWXID='+curWXID+'&CurName='+curName+'&MachineID='+machineID+'&MachineName='+machineName+'&';	
+	//location.href=url;
+	window.open(url);
+}
+
+function doCreateRepair(){
+	
+	window.sessionStorage.setItem("CurWXID",$('#idCurWXID').val());
+	window.sessionStorage.setItem("CurName",$('#idCurName').val());
+	window.sessionStorage.setItem("MachineID",$('#idMachineID').val());
+	window.sessionStorage.setItem("MachineName",$('#idMachineName').val());
+	
+	url = 'register10.html'; //?CurWXID='+curWXID+'&CurName='+curName+'&MachineID='+machineID+'&MachineName='+machineName+'&';	
+	//location.href=url;
+	window.open(url);
+}
+
+</script>
+</body>
+</html>

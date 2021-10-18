@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Accordion Actions - jQuery EasyUI Demo</title>
+	
+	<!--easy ui-->
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>	
+	<script type="text/javascript" src="/weixin/system/js/vue/vx-easyui-min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+	<!--tools-->
+	<script src="/weixin/system/js/weixin.tools.js"></script>
+	
+</head>
+<body>
+<div id="app-2">
+  {{ message }}
+</div>
+
+
+	<h2>Accordion Actions</h2>
+	<p>Click the buttons below to add or remove accordion items.</p>
+	<div style="margin:20px 0 10px 0;">
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="selectPanel()">Select</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="addPanel()">Add</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton" onclick="removePanel()">Remove</a>
+	</div>
+	<div id="aa" class="easyui-accordion" style="width:500px;height:300px;">
+		<div title="About" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+			<h3 style="color:#0099FF;">Accordion for jQuery</h3>
+			<p>Accordion is a part of easyui framework for jQuery. It lets you define your accordion component on web page more easily.</p>
+		</div>
+	</div>
+	
+
+
+<script>
+var app2 = new Vue({
+  el: '#app-2',
+  data: {
+    message: '页面加载于 ' + new Date().toLocaleString()
+  }
+});
+
+</script>
+</body>
+</html>

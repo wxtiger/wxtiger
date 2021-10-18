@@ -1,0 +1,131 @@
+[06:51:37]:Error SQL:INSERT INTO MachineInfo
+           (MachineID
+			,MachineName
+			,MachineType
+			,MachineLocation
+			,MachineOwner
+			,MachineUserID
+			,MachineDepartment
+			,MachineClass
+			,BuyDate
+			,UsedDate
+			,MachineSupplier
+			,MachineFileList
+			,MachineStatus
+			,MachineComment
+			,WarrantyDate
+		  ,CreatedDate
+		  ,UpdatedDate)	
+		VALUES
+           ('11'
+			,'1111'
+			,'11'
+			,'111'
+			,'111'
+			,''
+			,''
+			,'公用设备'
+			,'2021-08-06'
+			,'2021-08-04'
+			,''
+			,''
+			,'Idle'
+			,'111'
+			,''	
+			,now()
+			,now())
+[07:04:19]:Error SQL:INSERT INTO MachineInfo
+           (MachineID
+			,MachineName
+			,MachineType
+			,MachineLocation
+			,MachineOwner
+			,MachineUserID
+			,MachineDepartment
+			,MachineClass
+			,BuyDate
+			,UsedDate
+			,MachineSupplier
+			,MachineFileList
+			,MachineStatus
+			,MachineComment
+			,WarrantyDate
+		  ,CreatedDate
+		  ,UpdatedDate)	
+		VALUES
+           ('111'
+			,'222'
+			,'122'
+			,'1212'
+			,'211'
+			,''
+			,''
+			,'公用设备'
+			,'2021-08-06'
+			,'2021-08-04'
+			,''
+			,''
+			,'Idle'
+			,'1212'
+			,''	
+			,now()
+			,now())
+[07:05:29]:Error SQL:INSERT INTO MachineInfo
+           (MachineID
+			,MachineName
+			,MachineType
+			,MachineLocation
+			,MachineOwner
+			,MachineUserID
+			,MachineDepartment
+			,MachineClass
+			,BuyDate
+			,UsedDate
+			,MachineSupplier
+			,MachineFileList
+			,MachineStatus
+			,MachineComment
+			,WarrantyDate
+		  ,CreatedDate
+		  ,UpdatedDate)	
+		VALUES
+           ('1111'
+			,'222'
+			,'122'
+			,'1212'
+			,'211'
+			,''
+			,''
+			,'公用设备'
+			,'2021-08-06'
+			,'2021-08-04'
+			,''
+			,''
+			,'Idle'
+			,'1212'
+			,''	
+			,now()
+			,now())
+[07:40:55]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:45:16]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:46:05]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:51:37]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:54:17]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:56:09]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[07:57:05]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[08:03:14]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[08:04:39]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[08:04:57]:读取SQL结果：SELECT * FROM MachineInfo  where  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[09:42:00]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[09:43:13]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[09:45:29]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[09:49:53]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[09:57:38]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:07:46]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:08:48]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:12:56]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:13:57]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:18:27]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:20:18]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:20:49]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc
+[10:21:33]:读取SQL结果：SELECT * FROM MachineInfo    where MachineStatus!='Delete' AND  RepairStatus != '90'  AND CreatedDate >= '2021-08-06' order by CreatedDate desc

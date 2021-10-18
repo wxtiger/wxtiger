@@ -1,0 +1,387 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/bootstrap/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/color.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/mobile.css">
+	<link rel="stylesheet" type="text/css" href="/weixin/system/js/easyui/themes/body.css">
+	
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/weixin/system/js/easyui/jquery.easyui.mobile.js"></script> 
+	<script src="/weixin/system/js/weixin.tools.js"></script>	
+	<link rel="stylesheet" type="text/css" href="register.css"> 	
+	<script src="register.js?aa=013&"></script>
+	<title>设备报修</Title>
+	
+	 
+</head>
+
+<body>
+<div style="display:none">	
+	<input type="text" id="idCurWXID" value="" >	
+	<input type="text" id="idCurName" value="" >	
+	<input type="text" name="UserName" id="idUserName" value="" />
+	<input type="text" name="UserMobile" id="idUserMobile" value="" />	
+
+	<input type="text" id="idRepairStatus" value="" />	
+	<input type="text" id="idFileNameList" value="" />	
+	<input type="text" id="idFileNameSaveList" value="" />	
+	<input type="text" id="idNextWXID" value="" />	
+	<input type="text" id="idNextName" value="" />	
+	<input type="text" id="idRequestWXID" value="" />	
+	<input type="text" id="idRequestName" value="" />	
+	<input type="text" id="idRepairID" value="" />	
+	<input type="text" id="idMachinName" value="" />	
+	<input type="text" id="idMachinID" value="" />	
+
+</div>
+		
+
+  <div class="easyui-navpanel">
+        <header>
+            <div class="m-toolbar">
+                <div class="m-title">IT设备报修<span id="idCIPIDShow"></span></div>
+            </div>
+			<div class="m-left" style="display:;margin-left:10px;">
+                    <a href="main.html" class="easyui-linkbutton" iconCls="icon-back" plain="true" outline="true">主页</a>
+            </div>
+			<div class="m-right" style="display:;margin-right:10px;">
+                    <a href="javascript:openWinWorkflow()" class="easyui-linkbutton" iconCls="icon-reload" plain="true" outline="true">流程</a>
+            </div>
+        </header>
+
+		
+		
+		<div class="easyui-tabs" id="idTab" data-options="fit:false,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
+    
+		<!--1.提出问题-->
+            <div title="1.提出问题" data-options="iconCls:'icon-ok'" style="color:black;">
+			
+				<div style="margin:10px">
+					<span style="width:;"><b>保修单：</b></span>	<span id="idRepairIDShow"></span>					
+				</div>
+				<div style="margin:10px">
+					<b>设备名：</b><span id="idMachineNameShow"></span>
+				</div>
+				<div style="margin:10px">
+					<b>创建者：</b><span id="idSubmitNameShow"></span>
+				</div>
+				
+				<div style="margin:10px">
+					
+					<select class="easyui-combogrid" id="idSelectEnginner" style="width:95%" data-options="
+							panelWidth: 500,
+							mode:'remote',
+							idField: 'UserID',							
+							textField: 'UserName',
+							url: 'php/readEngineerList.php',
+							editable:false,
+							method: 'get',
+							columns: [[								
+								{field:'UserName',title:'<b>姓名</b>',width:'60%',sortable:true,align:'center'},
+								{field:'UserID',title:'<b>手机号</b>',width:'40%',sortable:true,align:'center'},
+							]],
+							fitColumns: true,
+							label: '<b>执行者</b>:',
+							labelPosition: 'left',
+							labelWidth:'50px',
+							onChange:function(newValue,oldValue){
+								doCombogridChanged(newValue);
+							}
+						">
+					</select>
+			
+				</div>
+				
+				
+								
+				<div style="margin:5px">		
+					<section class="showTitle1">							
+						<section style="margin:5px;">
+							<span id="idSubmitComment"></span>
+						</section>
+					</section>
+				</div>
+				
+				
+				<div style="margin:10px">	
+					<div class="products">
+						<ul id="idFileList" >
+							
+						</ul>	
+					</div>
+				</div>
+				
+				
+				<div style="margin:10px;text-align:center">
+					<a href="javascript:openWinCancel('doSubmit_Cancel','关闭报修','请输入结束处理的理由','请输入结束处理的理由，比如，重复提交，无法处理等');" class="easyui-linkbutton c3" style="width:30%" data-options="iconCls:'icon-cancel',iconAlign:'top'">关闭报修</a>&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;
+					<a href="javascript:doSubmit_OK()" class="easyui-linkbutton c8" style="width:30%" data-options="iconCls:'icon-ok',iconAlign:'top'">接受处理</a>
+				</div>
+				<div style="margin:10px;text-align:center">
+					<p></p>
+				</div>
+            </div>
+			
+		<!--2.解决问题-->
+			<div title="2.解决问题" data-options="" >
+                
+            </div>
+		
+		<!--3.验证结果-->		
+			<div title="3.验证结果" data-options="" >
+                
+            </div>
+			
+			
+			
+        </div>
+		
+		
+	 </div>	
+		
+	<br>	
+	<br>
+     
+	<!--更换处理人窗口 start-->
+	<div id="idwinChangeProcessor" class="easyui-window" title="更换处理人" data-options="modal:true,closed:true,iconCls:'icon-man',footer:'#winfooter'" style="width:95%;padding:5px;">
+		
+		<div data-options="region:'center'" style="padding:5px;">
+	   
+			<ul class="m-list" data-options="
+					fit: true,
+					lines: true,
+					border: false">
+					
+				<li class="m-list-group">◆更换执行人◆</li>					
+				<li>
+				
+				<div style="margin:5px">
+					
+					<input class="easyui-textbox" id="idSearchStaff" style="width:95%" data-options="
+						labelPosition:'left',label:'执行者:',buttonText:'搜索',buttonIcon:'icon-search'">
+					<br>	
+					<select class="easyui-combobox" id="idSelectStaff" data-options="labelPosition:'left',label:'选择人员:',editable:false" style="width:95%;">
+						
+					</select>
+				</div>
+				
+				<div style="margin:5px">
+					<select class="easyui-combobox" id="idRequestDeaprtment" data-options="labelPosition:'left',label:'改善的部门:',editable:false" onclick="doSelectStaff(this)" style="width:95%;">
+						<option value="00">(请选择部门)</option>
+					</select>
+				</div>	
+				<div style="margin:5px">
+					<select class="easyui-combobox" id="idRequestTeam" data-options="labelPosition:'left',label:'改善的团队',editable:false" style="width:95%;">
+						<option value="00">(请选择团队)</option>
+					</select>
+				</div>
+				<div style="margin:5px">
+					 <input class="easyui-textbox" id="idChangeProcessorComment" style="width:95%;height:50px" data-options="label:'备注说明:',multiline:true">
+				</div>
+				<br>
+				</li>
+			</ul>
+		</div>
+		<div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">			
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:doSubmit_ChangeProcessor()" style="width:80px">Ok</a>&nbsp;
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:$('#idwinChangeProcessor').window('close');" style="width:80px">Cancel</a>
+		</div>
+    </div>	
+	<!--更换处理人窗口 end-->
+		
+	
+	
+	
+	
+<script>
+
+//00 初始化
+$(document).ready(function(){ 
+	　　
+	//01 读取参数
+	doReadQuery();
+	//doOpen_setEvent();
+	
+	//02 读取当前用户资料
+	doReadUser();
+	
+	//03 读取报修资料
+	doReadRepair();
+	
+	//04 判断处理权限,绑定事件
+	doSetEvent();
+		
+}); 
+
+function doCombogridChanged(newValue){
+
+		//alert(newValue);
+		sValue = $('#idSelectEnginner').combogrid('getValue');
+		sText = $('#idSelectEnginner').combogrid('getText');
+		
+		$('#idNextWXID').val($('#idSelectEnginner').combogrid('getValue'));
+		$('#idNextName').val($('#idSelectEnginner').combogrid('getText'));
+		
+		
+		//alert(sText);
+								
+}
+
+//04 判断处理权限,绑定事件
+function doSetEvent2(){
+
+	return;
+	
+	
+
+
+}
+
+
+
+
+
+
+
+//拒绝接受
+function doSubmit_Cancel(){
+	//点击注册按钮，执行此函数
+	//获得当前用户的微信ID
+	
+	var strReturn = "";
+	
+	strReturn += '"CurWXID":"'+$("#idCurWXID").val()+'",';
+	strReturn += '"CurName":"'+$('#idCurName').val()+'",';	
+	strReturn += '"RepairID":"'+$('#idRepairID').val()+'",';
+	strReturn += '"SubmitType":"Cancel",';	
+		
+	//
+	if($('#idCancelComment').val() == ""){
+		$.messager.alert('字段错误','请输入拒绝的理由!','error');
+		return;
+	}
+	strReturn += '"CancelComment":"'+StringDelBad($('#idCancelComment').val())+'",';
+	strReturn += '"OK":"1"';
+	
+	$.messager.confirm('提交', '您确定关闭此报修吗？', function(r){
+		if (r){
+			strReturn = encodeURI('{'+strReturn+'}');
+			saveBody_Cancel(strReturn);
+			return;
+		}
+    });
+			
+	return;
+}
+
+//保存处理者
+function saveBody_Cancel(sBody){
+	ajaxLoading('');
+	
+	var requestURL = "php/doRepairSubmit20.php?";
+	
+	$.ajax({
+		url:requestURL,
+		type:'POST', data:sBody, dataType:'text', 	
+		error:function (XMLHttpRequest, textStatus, errorThrown) {
+                ajaxLoadEnd();	
+	　　　　　  alert("提交失败，请重新试试，"+textStatus);
+				return;
+        },
+		complete:function(XMLHttpRequest,status){
+	　　　　if(status=='timeout'){
+	 　　　　　 ajaxLoadEnd();	
+	　　　　　  alert("服务器无响应，请重新试试");
+				return;
+	　　　　}
+　　	},	
+		success:function(sText,textStatus,jqXHR){
+			ajaxLoadEnd();			
+			//alert(sText);
+			objJson = JSON.parse(decodeURI(sText));
+			if(objJson.errcode != 0){;
+				alert("保存有问题，请重新提交:"+jsonResp.errCode);
+				return;									
+			}	
+			alert('已结束处理');
+			location.href='main.html';
+			//WeixinJSBridge.call('closeWindow');	
+			return;			
+		}
+	})
+}
+
+//接受处理
+function doSubmit_OK(){
+	//点击注册按钮，执行此函数
+	//获得当前用户的微信ID
+	
+	var strReturn = "";
+	
+	strReturn += '"CurWXID":"'+$("#idCurWXID").val()+'",';
+	strReturn += '"CurName":"'+$('#idCurName').val()+'",';	
+	strReturn += '"RepairID":"'+$('#idRepairID').val()+'",';
+	strReturn += '"SubmitType":"Approved",';		
+	strReturn += '"NextWXID":"'+$("#idNextWXID").val()+'",';
+	strReturn += '"NextName":"'+$('#idNextName').val()+'",';	
+	
+	sTime = (new Date()).getTime()
+	strReturn += '"OK":"'+sTime+'"';
+	
+	$.messager.confirm('提交', '您确定交给'+$('#idNextName').val()+'('+$("#idNextWXID").val()+')处理吗?', function(r){
+		if (r){
+			strReturn = encodeURI('{'+strReturn+'}');
+			saveBody_OK(strReturn);
+			return;
+		}
+    });
+			
+	return;
+}
+
+//保存处理者
+function saveBody_OK(sBody){
+	ajaxLoading('');
+	
+	var requestURL = "php/doRepairSubmit20.php?";	
+	$.ajax({
+		url:requestURL,
+		type:'POST',data:sBody,dataType:'text', 	
+		error:function (XMLHttpRequest, textStatus, errorThrown) {
+                ajaxLoadEnd();	
+	　　　　　  alert("提交失败，请重新试试，"+textStatus);
+				return;
+        },
+		complete:function(XMLHttpRequest,status){
+	　　　　if(status=='timeout'){
+	 　　　　　 ajaxLoadEnd();	
+	　　　　　  alert("服务器无响应，请重新试试");
+				return;
+	　　　　}
+　　	},	
+		success:function(sText,textStatus,jqXHR){
+			ajaxLoadEnd();	
+			//alert(sText);
+			objJson = JSON.parse(decodeURI(sText));
+			if(objJson.errcode != 0){;
+				alert("保存有问题，请重新提交:"+jsonResp.errCode);
+				return;									
+			}	
+			alert('已交给'+$('#idNextName').val()+'('+$("#idNextWXID").val()+')处理');
+			//WeixinJSBridge.call('closeWindow');	
+			location.href='main.html';
+			return;			
+		}
+	})
+}
+
+
+
+</script>
+</body>
+</html>
