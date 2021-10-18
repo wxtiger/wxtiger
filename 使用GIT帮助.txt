@@ -1,0 +1,19 @@
+1、注册GitHub账号和项目：
+https://github.com/wxtiger/wxtiger
+
+2、安装Git客户端
+
+3、激活
+git init
+
+增加远程仓库
+git remote add wxtiger https://github.com/wxtiger/wxtiger.git
+
+增加当前目录进缓存
+git add .
+
+提交到远程
+git commit
+
+推送到远程
+git push --force wxtiger master
